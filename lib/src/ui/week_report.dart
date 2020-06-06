@@ -2,53 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:keak/src/custom_widget/key_value.dart';
 import 'package:keak/src/utils/global_translations.dart';
 
-class Ambergris extends StatefulWidget {
+class WeekReport extends StatefulWidget {
   final Map item;
 
-  Ambergris({Key key, this.item}) : super(key: key);
+  WeekReport({Key key, this.item}) : super(key: key);
 
   @override
-  _AmbergrisState createState() => _AmbergrisState();
+  _WeekReportState createState() => _WeekReportState();
 }
 
-class _AmbergrisState extends State<Ambergris> {
-  List list = [
-    {
-      "title": lang.text("Week(1)"),
-      "total": "13,000",
-      "strain": "Neo casle",
-      "dead_recived": "100",
-      "weight_on_receive": "39 Kgm"
-    },
-    {
-      "title": lang.text("Week(2)"),
-      "total": "13,000",
-      "strain": "Neo casle",
-      "dead_recived": "100",
-      "weight_on_receive": "39 Kgm"
-    },
-    {
-      "title": lang.text("Week(3)"),
-      "total": "13,000",
-      "strain": "Neo casle",
-      "dead_recived": "100",
-      "weight_on_receive": "39 Kgm"
-    },
-    {
-      "title": lang.text("Week(4)"),
-      "total": "13,000",
-      "strain": "Neo casle",
-      "dead_recived": "100",
-      "weight_on_receive": "39 Kgm"
-    },
-  ];
+class _WeekReportState extends State<WeekReport> {
   @override
   Widget build(BuildContext context) {
+    List list = [
+      {
+        "day": "24-May",
+
+      }
+    ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          widget.item["title"]
-        ),
+        title: Text(widget.item["title"]),
       ),
       body: Container(
         child: ListView.builder(
@@ -80,18 +54,6 @@ class _AmbergrisState extends State<Ambergris> {
                         label: lang.text("Total"),
                         value: item["total"],
                       ),
-                      KeyValue(
-                        label: lang.text("Strain"),
-                        value: item["strain"],
-                      ),
-                      KeyValue(
-                        label: lang.text("Dead received"),
-                        value: item["dead_recived"],
-                      ),
-                      KeyValue(
-                        label: lang.text("Weight on receive"),
-                        value: item["weight_on_receive"],
-                      ),
                     ],
                   ),
                 ),
@@ -102,5 +64,4 @@ class _AmbergrisState extends State<Ambergris> {
       ),
     );
   }
-
 }

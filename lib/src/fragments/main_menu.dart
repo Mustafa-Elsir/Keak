@@ -15,19 +15,19 @@ class _MainMenuState extends State<MainMenu> {
     {
       "title": lang.text("Ambergris (A)"),
       "subtitle": "${lang.text("Available")} 12,000",
-      "color": "#c5f0a9",
+      "color": "#00a5af",
       "image": "assets/images/bg-1.jpg"
     },
     {
       "title": lang.text("Ambergris (B)"),
       "subtitle": "${lang.text("Available")} 22,000",
-      "color": "#00a5af",
+      "color": "#af9019",
       "image": "assets/images/bg-2.jpg"
     },
     {
       "title": lang.text("Ambergris (C)"),
       "subtitle": "${lang.text("Available")} 10,000",
-      "color": "#af9019",
+      "color": "#c5f0a9",
       "image": "assets/images/bg-3.jpg"
     },
     {
@@ -174,7 +174,7 @@ class _MainMenuState extends State<MainMenu> {
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: HexColor(item["color"], "88"),
+                        color: HexColor(item["color"], "44"),
                       ),
                     ),
                     Positioned(

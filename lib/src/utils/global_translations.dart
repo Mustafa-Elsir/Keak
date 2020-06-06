@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Preferences related
 ///
 const String _storageKey = "MyApplicaion_";
-const String _defaultLanguage = "en";
+const String _defaultLanguage = "ar";
 const List<String> _supportedLanguages = ['en', 'ar'];
 const Map<String, String> _supportedLanguagesFull = {
   "en": "English", "ar": "العربية"

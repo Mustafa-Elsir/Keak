@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:keak/src/utils/app_builder.dart';
 import 'package:keak/src/utils/global_translations.dart';
 import 'package:keak/src/utils/routes.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
@@ -16,7 +17,9 @@ class _SplashState extends State<Splash> {
     init();
   }
 
-  init(){
+  init() async {
+    await lang.init();
+    AppBuilder.of(context).rebuild();
     Future.delayed(Duration(seconds: 2)).then((value) {
       Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, ModalRoute.withName("/no_route"));
     });
