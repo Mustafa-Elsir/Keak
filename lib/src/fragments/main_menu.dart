@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:keak/src/custom_widget/rounded_button.dart';
 import 'package:keak/src/ui/ambergris.dart';
 import 'package:keak/src/utils/global_translations.dart';
 import 'package:keak/src/utils/hex_color.dart';
@@ -27,7 +26,7 @@ class _MainMenuState extends State<MainMenu> {
     {
       "title": lang.text("Ambergris (C)"),
       "subtitle": "${lang.text("Available")} 10,000",
-      "color": "#c5f0a9",
+      "color": "#000000",
       "image": "assets/images/bg-3.jpg"
     },
     {
@@ -39,7 +38,16 @@ class _MainMenuState extends State<MainMenu> {
   ];
   @override
   Widget build(BuildContext context) {
-    return buildBody();
+//    return buildBody();
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          lang.text("Dashboard"),
+        ),
+      ),
+      body: getBodyContent(),
+    );
   }
 
   Widget buildBody(){

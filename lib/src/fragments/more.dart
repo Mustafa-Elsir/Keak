@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keak/src/custom_widget/more_item.dart';
 import 'package:keak/src/utils/global_translations.dart';
-import 'package:keak/src/utils/pref_manager.dart';
 import 'package:keak/src/utils/routes.dart';
 
 class More extends StatefulWidget {
@@ -10,7 +9,6 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
-  final _prefManager = PrefManager();
 
   @override
   Widget build(BuildContext context) {

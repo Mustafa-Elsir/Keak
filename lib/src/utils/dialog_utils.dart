@@ -1,5 +1,6 @@
 //import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:keak/src/utils/wavy_header.dart';
 
 import 'global_translations.dart';
 
@@ -11,10 +12,11 @@ Future<bool> showCustomSuccessDialog(BuildContext context, {
   bool isDismissible = false,
 }) async {
   return showCustomDialog(context,
-      title: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor), ),
+      title: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), ),
+      color: Theme.of(context).primaryColor,
       subtitle: Text(subtitle, textAlign: TextAlign.center,),
       positiveLabel: Text(positive ?? lang.text("OK"), style: TextStyle(color: Colors.white),),
-      negativeLabel: Text(negative ?? lang.text("CLOSE"), style: TextStyle(color: Colors.white),),
+      negativeLabel: negative == null? null :Text(negative, style: TextStyle(color: Colors.white),),
       negativeColor: Colors.grey,
       isDismissible: isDismissible,
       positiveColor: Theme.of(context).primaryColor);
@@ -74,10 +76,11 @@ Future<bool> showCustomErrorDialog(BuildContext context, [
     title: Text(title ?? lang.text("Close App"),
       style: TextStyle(
         fontSize: 18,
-        color: Colors.red,
+        color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
     ),
+    color: Colors.red,
     subtitle: Text(
       subtitle ?? lang.text("Are you sure to close the app?"),
       textAlign: TextAlign.center,
@@ -106,6 +109,7 @@ Future<bool> showCustomDialog(BuildContext context, {
   @required Widget negativeLabel,
   @required Color negativeColor,
   @required Color positiveColor,
+  Color color,
   bool isDismissible = true
 }) async {
   // flutter defined function
@@ -119,45 +123,64 @@ Future<bool> showCustomDialog(BuildContext context, {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                title,
+                title is Text?
+                WavyHeader(
+                  child: title,
+                  color: color,
+                ): title,
                 SizedBox(height: 16,),
-                subtitle ?? Container(),
-                subtitle == null ? Container :
-                SizedBox(height: 16,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    RaisedButton(
-                        child: positiveLabel,
-                        onPressed: () async {
-                          Navigator.of(context).pop(true);
-                        },
-                        color: positiveColor,
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0))
-                    ),
-                    RaisedButton(
-                        child: negativeLabel,
-                        onPressed: () {
-                          Navigator.of(context).pop(false);
-                        },
-                        color: negativeColor,
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0))
-                    ),
-                  ],
+                Container(
+                  padding: EdgeInsets.only(top: 0, bottom: 8, left: 16, right: 16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      subtitle ?? Container(),
+                      subtitle == null ? Container :
+                      SizedBox(height: 16,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: _getButtons(context, positiveLabel, positiveColor, negativeLabel, negativeColor),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          contentPadding: EdgeInsets.only(
-              top: 32, bottom: 8, left: 16, right: 16),
+          contentPadding: EdgeInsets.zero,
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(16.0))
       );
     },
   );
   return status ?? false;
+}
+
+List<Widget> _getButtons(context, positiveLabel, positiveColor, negativeLabel, negativeColor){
+
+  List<Widget> list = [
+    RaisedButton(
+        child: positiveLabel,
+        onPressed: () async {
+          Navigator.of(context).pop(true);
+        },
+        color: positiveColor,
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0))
+    ),
+  ];
+  if(negativeLabel != null){
+    list.add(RaisedButton(
+        child: negativeLabel,
+        onPressed: () {
+          Navigator.of(context).pop(false);
+        },
+        color: negativeColor,
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30.0))
+    ));
+  }
+  return list;
 }
 
 

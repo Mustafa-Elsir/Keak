@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:keak/src/ui/home.dart';
-import 'package:keak/src/ui/more/settings.dart';
+import 'package:keak/src/ui/settings.dart';
 import 'package:keak/src/ui/splash.dart';
 
 const String splashRoute = "/";

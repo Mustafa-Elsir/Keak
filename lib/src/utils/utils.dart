@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'dart:io';
 
+import 'dart:math';
+
 String formatPhoneLabel(String phone){
   String newPhone = "";
   for(int i = 0 ; i < phone.length; i++){
@@ -20,4 +22,8 @@ String getFileBase64(File image) {
     return base64Image;
   }
   return null;
+}
+double customRound(val, int places) {
+  double mod = pow(10.0, places);
+  return ((val * 1.0 * mod).round().toDouble() / mod);
 }
