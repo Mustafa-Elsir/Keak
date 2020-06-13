@@ -12,7 +12,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
-  Map user = {};
+  String phone;
   final _prefManager =  PrefManager();
 
   @override
@@ -22,11 +22,10 @@ class _SettingsState extends State<Settings> {
   }
 
   loadUserData() async {
-    String userJson = await _prefManager.get("user.data", "{}");
-    setState(() {
-      user = json.decode(userJson);
-    });
+    phone = await _prefManager.get("phone", "");
+    setState(() {});
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,43 +47,23 @@ class _SettingsState extends State<Settings> {
                   lang.text("Account data"),
                   style: TextStyle(
                     fontSize: 18,
-                    fontFamily: "Montserrat-Bold",
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                user['phone'] == null? Container():
+                phone == null? Container():
                 Text(
-                  "+${formatPhoneLabel("249${user['phone']}")}",
+                  "+${formatPhoneLabel("249${phone.substring(1)}")}",
                   textDirection: TextDirection.ltr,
                   style: TextStyle(
                     fontSize: 28,
-                    fontFamily: "Montserrat-Bold",
                     color: Theme.of(context).primaryColor,
                   ),
                 ),
                 SizedBox(
                   height: 16,
-                ),
-                (user['email'] == null) || (user['email'] is bool) ? Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text(
-                    lang.text("You can enter your email to use full features of the system"),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
-                ) : Text(
-                  "${user['email']}",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
                 SizedBox(height: 8,),
               ],
@@ -92,21 +71,6 @@ class _SettingsState extends State<Settings> {
             SizedBox(
               height: 16,
             ),
-//            SettingItem(
-//              onTap: () async {
-//                var result = await Navigator.of(context).push(
-//                  MaterialPageRoute(builder: (context) {
-//                    return EmailPage(update: true);
-//                  }),
-//                );
-//                if(result != null && result is bool){
-//                  loadUserData();
-//                }
-//              },
-//              label: lang.text("i18n_90"),
-//              leadingIcon: Icon(Icons.email),
-//              nextIcon: Icon(Icons.navigate_next),
-//            ),
             Container(
               decoration: new BoxDecoration(
                 color: Colors.white,

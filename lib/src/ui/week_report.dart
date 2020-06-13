@@ -98,7 +98,7 @@ class _WeekReportState extends State<WeekReport> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    DateFormat("dd MMM yyyy").format(DateFormat("yyyy-MM-dd").parse(item["day"], true)),
+                    DateFormat("dd MMM yyyy", lang.currentLanguage).format(DateFormat("yyyy-MM-dd").parse(item["day"], true)),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
