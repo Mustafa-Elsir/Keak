@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:keak/src/resources/repository.dart';
 import 'package:keak/src/utils/app_builder.dart';
 import 'package:keak/src/utils/global_translations.dart';
+import 'package:keak/src/utils/pref_manager.dart';
 import 'package:keak/src/utils/routes.dart';
 import 'package:loading/indicator/ball_pulse_indicator.dart';
 import 'package:loading/loading.dart';
@@ -11,6 +15,9 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  final _prefManager = PrefManager();
+  final _repo = Repository();
+
   @override
   void initState() {
     super.initState();
@@ -20,9 +27,28 @@ class _SplashState extends State<Splash> {
   init() async {
     await lang.init();
     AppBuilder.of(context).rebuild();
+
+    if(await _prefManager.contains("phone")){
+      String phone = await _prefManager.get("phone", "");
+      if(phone.isNotEmpty){
+        Map<String, dynamic> response = await _repo.auth(phone);
+        await _prefManager.set("token", response["token"]);
+        await _prefManager.set("ambergris", json.encode(response["ambergris"]));
+        Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, ModalRoute.withName("/no_route"));
+        return;
+      } else {
+        _prefManager.remove("phone");
+      }
+    }
     Future.delayed(Duration(seconds: 2)).then((value) {
-      Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, ModalRoute.withName("/no_route"));
+      Navigator.of(context).pushNamedAndRemoveUntil(authRoute, ModalRoute.withName("/no_route"));
     });
+  }
+
+  @override
+  void dispose() {
+    _repo.close();
+    super.dispose();
   }
 
   @override

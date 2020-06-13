@@ -14,8 +14,8 @@ class RegisterDead extends StatefulWidget {
 }
 
 class _RegisterDeadState extends State<RegisterDead> {
-  DateTime date;
-  TimeOfDay timeOfDay;
+  DateTime date = DateTime.now();
+  TimeOfDay timeOfDay = TimeOfDay.now();
   final controller = TextEditingController();
 
   @override
@@ -55,12 +55,12 @@ class _RegisterDeadState extends State<RegisterDead> {
             SizedBox(height: 8),
 
             DateTimePicker(
-              labelText: "Label text",
+              labelText: lang.text("Date time"),
               selectDate: (DateTime date){
                 print("date: $date");
               },
-              selectedDate: date ?? DateTime.now(),
-              selectedTime: timeOfDay ?? TimeOfDay.now(),
+              selectedDate: date,
+              selectedTime: timeOfDay,
               selectTime: (TimeOfDay time){
                 print("time: $time");
               },

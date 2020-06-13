@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:keak/src/custom_widget/more_item.dart';
+import 'package:keak/src/utils/dialog_utils.dart';
 import 'package:keak/src/utils/global_translations.dart';
+import 'package:keak/src/utils/pref_manager.dart';
 import 'package:keak/src/utils/routes.dart';
 
 class More extends StatefulWidget {
@@ -37,17 +39,16 @@ class _MoreState extends State<More> {
 //              },),
               Divider(color: Colors.grey, height: 2,),
               MoreItem(label: lang.text("Logout"), icon: Icons.remove_circle_outline, onTap: () async {
-//                bool logout = await showCustomErrorDialog(context,
-//                    lang.text("i18n_43"),
-//                    lang.text("i18n_44"),
-//                    lang.text("i18n_42")
-//                );
-//                if(logout){
-//                  await _prefManager.remove("user.data");
-//                  await _prefManager.remove("phone");
-//                  await _prefManager.remove("token");
-//                  Navigator.of(context).pushNamedAndRemoveUntil(registerRoute, ModalRoute.withName("/no_name"));
-//                }
+                bool logout = await showCustomErrorDialog(context,
+                    lang.text("Confirm Logout"),
+                    lang.text("Are you sure you want to logout?"),
+                    lang.text("Logout")
+                );
+                if(logout){
+                  final _prefManager = PrefManager();
+                  await _prefManager.clear();
+                  Navigator.of(context).pushNamedAndRemoveUntil(authRoute, ModalRoute.withName("/no_name"));
+                }
               },),
             ],
           ),

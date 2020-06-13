@@ -38,6 +38,9 @@ dependencies:
   dio_http_cache: ^0.2.6
   dio: ^3.0.9
   connectivity: ^0.4.8+6
+  cached_network_image: ^2.2.0+1
+  flutter_speed_dial: ^1.2.5
+  flutter_svg: ^0.17.4
 
 dev_dependencies:
   flutter_test:

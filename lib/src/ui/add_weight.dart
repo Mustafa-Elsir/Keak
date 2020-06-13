@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keak/src/custom_widget/alternative_button.dart';
+import 'package:keak/src/custom_widget/date_time_picker.dart';
 import 'package:keak/src/utils/global_translations.dart';
 
 class AddWeight extends StatefulWidget {
@@ -13,12 +14,14 @@ class AddWeight extends StatefulWidget {
 
 class _AddWeightState extends State<AddWeight> {
   final controller = TextEditingController();
+  DateTime date = DateTime.now();
+  TimeOfDay timeOfDay = TimeOfDay.now();
 
   @override
   void initState() {
-    if(widget.item["day_weight"] != 0){
-      controller.text = "${widget.item["day_weight"]}";
-    }
+//    if(widget.item["day_weight"] != 0){
+//      controller.text = "${widget.item["day_weight"]}";
+//    }
     super.initState();
   }
 
@@ -45,6 +48,17 @@ class _AddWeightState extends State<AddWeight> {
                   ),
                 ),
                 SizedBox(height: 24),
+                DateTimePicker(
+                  labelText: lang.text("Date time"),
+                  selectDate: (DateTime date){
+                    print("date: $date");
+                  },
+                  selectedDate: date,
+                  selectedTime: timeOfDay,
+                  selectTime: (TimeOfDay time){
+                    print("time: $time");
+                  },
+                ),
                 TextFormField(
                   controller: controller,
                   keyboardType: TextInputType.numberWithOptions(decimal: true),

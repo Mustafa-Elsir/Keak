@@ -1,7 +1,14 @@
+import 'dart:convert';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:keak/src/custom_widget/empty_widget.dart';
+import 'package:keak/src/custom_widget/loading_widget.dart';
 import 'package:keak/src/ui/ambergris.dart';
 import 'package:keak/src/utils/global_translations.dart';
 import 'package:keak/src/utils/hex_color.dart';
+import 'package:keak/src/utils/pref_manager.dart';
 
 class MainMenu extends StatefulWidget {
   @override
@@ -9,33 +16,30 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+  var f = new NumberFormat("#,###", lang.currentLanguage);
   var top = 0.0;
-  List list = [
-    {
-      "title": lang.text("Ambergris (A)"),
-      "subtitle": "${lang.text("Available")} 12,000",
-      "color": "#00a5af",
-      "image": "assets/images/bg-1.jpg"
-    },
-    {
-      "title": lang.text("Ambergris (B)"),
-      "subtitle": "${lang.text("Available")} 22,000",
-      "color": "#af9019",
-      "image": "assets/images/bg-2.jpg"
-    },
-    {
-      "title": lang.text("Ambergris (C)"),
-      "subtitle": "${lang.text("Available")} 10,000",
-      "color": "#000000",
-      "image": "assets/images/bg-3.jpg"
-    },
-    {
-      "title": lang.text("Ambergris (D)"),
-      "subtitle": "${lang.text("Available")} 32,000",
-      "color": "#aa9a00",
-      "image": "assets/images/bg-1.jpg"
-    },
-  ];
+  final _prefManager = PrefManager();
+  bool isLoading = true;
+  List list = [];
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  init() async {
+    setState(() {
+      isLoading = true;
+      list = [];
+    });
+
+    list = json.decode(await _prefManager.get("ambergris", "{}"));
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 //    return buildBody();
@@ -144,6 +148,24 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   Widget getBodyContent(){
+    if(isLoading){
+      return LoadingWidget(
+        size: 84,
+        useLoader: true,
+      );
+    } else {
+      if(list.isEmpty){
+        return EmptyWidget(
+          size: 128,
+          message: lang.text("Fail to load ambergris"),
+          subMessage: lang.text("Try to reopen the app"),
+        );
+      }
+      return getBody();
+    }
+  }
+
+  Widget getBody(){
     return Container(
       child: ListView.builder(
         padding: EdgeInsets.all(8),
@@ -172,7 +194,7 @@ class _MainMenuState extends State<MainMenu> {
                     ClipRRect(
                       borderRadius: new BorderRadius.circular(8.0),
                       child: Image(
-                        image: AssetImage(item["image"]),
+                        image: CachedNetworkImageProvider(item["image"]),
                         fit: BoxFit.cover,
                         width: MediaQuery.of(context).size.width,
                       ),
@@ -195,7 +217,7 @@ class _MainMenuState extends State<MainMenu> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text(
-                            item["title"],
+                            item["name"],
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -203,9 +225,10 @@ class _MainMenuState extends State<MainMenu> {
                             ),
                           ),
                           Text(
-                            item["subtitle"],
+                            "${lang.text("Available")} ${f.format(int.parse("${item["available"]}"))}",
                             style: TextStyle(
                               color: Colors.white,
+                              fontWeight: FontWeight.w700
                             ),
                           ),
                         ],

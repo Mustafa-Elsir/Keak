@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:keak/src/utils/global_translations.dart';
+import 'package:keak/src/utils/pref_manager.dart';
 
 enum Method {POST, GET, PATCH, DELETE}
 
 class ApiProvider {
-  static String _baseUrl = "http://localhost/coders/keak/";
+  static String _baseUrl = "http://192.168.8.100/coders/keak/";
   final String baseUrl = "$_baseUrl";
   final String apiUrl = "${_baseUrl}api/v1/";
   final int keepOnCache = 3;
@@ -37,20 +37,21 @@ class ApiProvider {
     dio.close();
   }
 
-  Future<Map<String , dynamic>> customerLogin(String login, String password) async {
-    return _doRequest("customerLogin", Method.GET, {
-      "user_mobile": login,
-      "password": password
-    });
+  Future<Map<String , dynamic>> auth(String phone) async {
+    return _doRequest("auth/login.php", Method.POST, request: {
+      "phone": phone,
+    }, forceRefresh: true);
   }
 
-
-  Future<Map<String, dynamic>> addToCart(Map<String, dynamic> request) async {
-    return _doRequest("addToCart", Method.POST, request, true);
+  Future<Map<String , dynamic>> lookups(String name, Map<String, dynamic> request) async {
+    String token = await PrefManager().get("token", "");
+    return _doRequest("lookups/$name", Method.GET, request: {
+      "token": token,
+    }..addAll(request), forceRefresh: true);
   }
 
   Future<Map<String, dynamic>> _doRequest(String path, Method method,
-      [Map<String, dynamic> request, bool forceRefresh = false]) async {
+  {Map<String, dynamic> request, bool forceRefresh = false}) async {
 
 //    forceRefresh = true;
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -62,23 +63,16 @@ class ApiProvider {
       };
     }
 
-//    print("basicRequest: $basicRequest");
-//    print("request: ${request.toString()}");
-
     try {
       Response response;
       if (method == Method.POST) {
         response = await dio.post(
           path,
-          data: FormData.fromMap(request),
+          data: json.encode(request),
           cancelToken: cancelToken,
-          onSendProgress: (int sent, int total) {
-//              print("onSendProgress: sent: $sent/total: $total");
-          },
-          onReceiveProgress: (int receive, int total){
-//              print("onReceiveProgress: receive: $receive/total: $total/");
-          },
-//            options: buildCacheOptions(Duration(days: keepOnCache), maxStale: Duration(days: keepOnCache), forceRefresh: forceRefresh),
+          onSendProgress: (int sent, int total) {},
+          onReceiveProgress: (int receive, int total){},
+          options: buildCacheOptions(Duration(days: keepOnCache), maxStale: Duration(days: keepOnCache), forceRefresh: forceRefresh),
         );
       } else if (method == Method.PATCH) {
         response = await dio.patch(path,
@@ -90,6 +84,7 @@ class ApiProvider {
         response = await dio.delete(path, data: request, cancelToken: cancelToken);
       } else if (method == Method.GET) {
         response = await dio.get(path,
+          queryParameters: request,
           options: buildCacheOptions(Duration(days: keepOnCache), maxStale: Duration(days: keepOnCache), forceRefresh: forceRefresh),
         );
       }

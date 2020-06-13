@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:keak/src/custom_widget/alternative_button.dart';
+import 'package:keak/src/custom_widget/date_time_picker.dart';
 import 'package:keak/src/utils/global_translations.dart';
 
 class AddNote extends StatefulWidget {
@@ -13,6 +14,8 @@ class AddNote extends StatefulWidget {
 
 class _AddNoteState extends State<AddNote> {
   final controller = TextEditingController();
+  DateTime date = DateTime.now();
+  TimeOfDay timeOfDay = TimeOfDay.now();
 
   @override
   void initState() {
@@ -45,6 +48,18 @@ class _AddNoteState extends State<AddNote> {
                   ),
                 ),
                 SizedBox(height: 24),
+                DateTimePicker(
+                  labelText: lang.text("Date time"),
+                  selectDate: (DateTime date){
+                    print("date: $date");
+                  },
+                  selectedDate: date,
+                  selectedTime: timeOfDay,
+                  selectTime: (TimeOfDay time){
+                    print("time: $time");
+                  },
+                ),
+                SizedBox(height: 8),
                 TextFormField(
                   controller: controller,
                   maxLines: 5,
