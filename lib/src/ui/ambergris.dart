@@ -43,7 +43,7 @@ class _AmbergrisState extends State<Ambergris> {
       isLoading = true;
       list = [];
     });
-    Map<String, dynamic> response = await _repo.weeks(ambergris["id"]);
+    Map<String, dynamic> response = await _repo.weeks("${ambergris["id"]}");
     isLoading = false;
     if (response.containsKey("success") && response["success"]) {
       list = response["list"];

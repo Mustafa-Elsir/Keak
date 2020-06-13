@@ -34,10 +34,10 @@ class _WeekReportState extends State<WeekReport> {
       list = [];
     });
     Map<String, dynamic> response = await _repo.days(
-      widget.item["ambergris_id"],
-      widget.item["init_count"],
-      widget.item["begin_date"],
-      widget.item["end_date"]
+      "${widget.item["ambergris_id"]}",
+      "${widget.item["init_count"]}",
+      "${widget.item["begin_date"]}",
+      "${widget.item["end_date"]}"
     );
     isLoading = false;
     if(response.containsKey("success") && response["success"]){

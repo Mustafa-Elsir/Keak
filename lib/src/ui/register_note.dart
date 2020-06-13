@@ -86,7 +86,7 @@ class _RegisterNoteState extends State<RegisterNote> {
                   onPressed: controller.text.isEmpty? null : () async {
                     showLoadingDialog(context);
                     Map<String, dynamic> response = await _repo.registerNote(
-                      widget.item["id"],
+                      "${widget.item["id"]}",
                       DateFormat("yyyy-MM-dd").format(date)+" ${timeOfDay.hour}:${timeOfDay.minute}:00",
                       controller.text,
                     );

@@ -8,7 +8,7 @@ import 'package:keak/src/utils/pref_manager.dart';
 enum Method {POST, GET, PATCH, DELETE}
 
 class ApiProvider {
-  static String _baseUrl = "http://192.168.8.100/coders/keak/";
+  static String _baseUrl = "http://webguy69.com/keak/";
   final String baseUrl = "$_baseUrl";
   final String apiUrl = "${_baseUrl}api/v1/";
   final int keepOnCache = 3;

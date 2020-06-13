@@ -77,7 +77,7 @@ class _RegisterWeightState extends State<RegisterWeight> {
                   onPressed: controller.text.isEmpty? null : () async {
                     showLoadingDialog(context);
                     Map<String, dynamic> response = await _repo.registerWeight(
-                      widget.item["id"],
+                      "${widget.item["id"]}",
                       DateFormat("yyyy-MM-dd").format(date)+" ${timeOfDay.hour}:${timeOfDay.minute}:00",
                       controller.text,
                     );

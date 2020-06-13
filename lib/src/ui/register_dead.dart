@@ -96,7 +96,7 @@ class _RegisterDeadState extends State<RegisterDead> {
               onPressed: controller.text.isEmpty || controller.text == "0"? null : () async {
                 showLoadingDialog(context);
                 Map<String, dynamic> response = await _repo.registerDead(
-                  widget.ambergris["id"],
+                  "${widget.ambergris["id"]}",
                   DateFormat("yyyy-MM-dd").format(date)+" ${timeOfDay.hour}:${timeOfDay.minute}:00",
                   controller.text,
                 );
