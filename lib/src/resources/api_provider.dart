@@ -43,6 +43,13 @@ class ApiProvider {
     }, forceRefresh: true);
   }
 
+  Future<Map<String , dynamic>> registerData(String name, Map<String, dynamic> request) async {
+    String token = await PrefManager().get("token", "");
+    return _doRequest("manage/$name", Method.POST, request: {
+      "token": token,
+    }..addAll(request), forceRefresh: true);
+  }
+
   Future<Map<String , dynamic>> lookups(String name, Map<String, dynamic> request) async {
     String token = await PrefManager().get("token", "");
     return _doRequest("lookups/$name", Method.GET, request: {
@@ -62,7 +69,8 @@ class ApiProvider {
         "message": lang.text("No internet connectivity")
       };
     }
-
+    print("path: $path");
+    print("request: $request");
     try {
       Response response;
       if (method == Method.POST) {

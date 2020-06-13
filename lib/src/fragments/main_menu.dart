@@ -50,7 +50,10 @@ class _MainMenuState extends State<MainMenu> {
           lang.text("Dashboard"),
         ),
       ),
-      body: getBodyContent(),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        child: getBodyContent(),
+      ),
     );
   }
 

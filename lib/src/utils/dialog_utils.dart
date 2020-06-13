@@ -9,11 +9,12 @@ Future<bool> showCustomSuccessDialog(BuildContext context, {
   String subtitle,
   String positive,
   String negative,
+  Color color,
   bool isDismissible = false,
 }) async {
   return showCustomDialog(context,
       title: Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white), ),
-      color: Theme.of(context).primaryColor,
+      color: color ?? Theme.of(context).primaryColor,
       subtitle: Text(subtitle, textAlign: TextAlign.center,),
       positiveLabel: Text(positive ?? lang.text("OK"), style: TextStyle(color: Colors.white),),
       negativeLabel: negative == null? null :Text(negative, style: TextStyle(color: Colors.white),),

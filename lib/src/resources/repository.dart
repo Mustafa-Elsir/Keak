@@ -21,4 +21,25 @@ class Repository {
         "from_date": fromDate,
         "to_date": toDate,
       });
+
+  Future<Map<String , dynamic>> registerDead(String ambergrisId, String dateTime, String qty) =>
+      apiProvider.registerData("register_dead.php", {
+        "ambergris_id": ambergrisId,
+        "dead_date_time": dateTime,
+        "qty": qty
+      });
+
+  Future<Map<String , dynamic>> registerWeight(String ambergrisId, String dateTime, String weight) =>
+      apiProvider.registerData("register_weight.php", {
+        "ambergris_id": ambergrisId,
+        "date_time": dateTime,
+        "weight": weight,
+      });
+
+  Future<Map<String , dynamic>> registerNote(String ambergrisId, String dateTime, String note) =>
+      apiProvider.registerData("register_notes.php", {
+        "ambergris_id": ambergrisId,
+        "date_time": dateTime,
+        "note": note,
+      });
 }

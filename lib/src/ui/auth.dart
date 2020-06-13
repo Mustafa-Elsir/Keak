@@ -74,8 +74,9 @@ class _AuthState extends State<Auth> {
                       Navigator.of(context).pushNamedAndRemoveUntil(homeRoute, ModalRoute.withName("/no_route"));
                     } else {
                       showCustomSuccessDialog(context,
+                        color: Colors.red,
                         title: lang.text("Fail"),
-                        subtitle: lang.text("Fail to login"),
+                        subtitle: response["message"] ?? lang.text("Fail to login"),
                         negative: null,
                         positive: lang.text("OK"),
                         isDismissible: true
